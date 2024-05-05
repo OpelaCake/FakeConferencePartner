@@ -6,6 +6,8 @@ class ReturnCode:
     NORMARL_MESSAGE=3
     FOLLOW_MEETING=4
     UNFOLLOW_MEETING=5
+    SCHEDULE_LIST=6
+    SCHEDULE_UPDATE=7
 
     def __init__(self, success=False, username="", messageType=NORMARL_MESSAGE, messageData={}) -> None:
         self.success = success
@@ -38,7 +40,7 @@ CORE_level: string: A*/A/B/C/-
 QUALIS_level: string: A1/A2/B1/B2/B3/B4/B5
 '''
 class Meeting:
-    def __init__(self, id, name, shortname, due_date, info_date, meeting_date, location, CCF_level, CORE_level, QUALIS_level) -> None:
+    def __init__(self, id, name, shortname, due_date, info_date, meeting_date, location, CCF_level, CORE_level, QUALIS_level, No) -> None:
         self.id = id
         self.name = name
         self.shortname = shortname
@@ -49,6 +51,7 @@ class Meeting:
         self.CCF_level = CCF_level
         self.CORE_level = CORE_level
         self.QUALIS_level = QUALIS_level
+        self.No = No
         self.username=None
         self.followed=False
 
@@ -69,4 +72,67 @@ class Meeting:
             "QUALIS_level":self.QUALIS_level,
             "username":self.username,
             "followed":self.followed
+        }
+    
+
+'''
+ATTRIBUTES:
+schedule_id*: int: ScheduleID
+username*: string: 账户名
+start_date*: string: xxxx-xx-xx格式的开始日期
+end_date*: string: xxxx-xx-xx格式的结束日期
+schedule_info*: string: 规划内容
+color: string: 0fxxxxxx格式的颜色（用于日历上显示）
+'''
+import random
+class Schedule:
+    def __init__(self, schedule_id, username, start_date, end_date, schedule_info, color=None) -> None:
+        self.schedule_id = schedule_id
+        self.username = username
+        self.start_date = start_date
+        self.end_date = end_date
+        self.schedule_info = schedule_info
+        self.color = color
+        if self.color == None:
+            self.color = random.randint(0, 0xffffff)
+
+    def __json__(self):
+        return {
+            "schedule_id":self.schedule_id,
+            "username":self.username,
+            "start_date":self.start_date,
+            "end_date":self.end_date,
+            "schedule_info":self.schedule_info,
+            "color":self.color
+        }
+        
+'''
+ATTRIBUTES:
+updateType*: string: 增删（"add"/"delete")
+schedule_id(* when delete): int: ScheduleID
+username(* when add): string: 账号名
+start_date(* when add): string: xxxx-xx-xx格式的开始日期
+end_date(* when add): string: xxxx-xx-xx格式的结束日期
+schedule_info(* when add): string: 规划内容
+color: string: 0fxxxxxx格式的颜色（用于日历上显示）
+'''
+class ScheduleUpdate:
+    def __init__(self, updateType, schedule_id=None, username=None, start_date=None, end_date=None, schedule_info=None, color=None) -> None:
+        self.updateType = updateType
+        self.schedule_id = schedule_id
+        self.username = username
+        self.start_date = start_date
+        self.end_date = end_date
+        self.schedule_info = schedule_info
+        self.color = color
+    
+    def __json__(self):
+        return {
+            "updateType":self.updateType,
+            "schedule_id":self.schedule_id,
+            "username":self.username,
+            "start_date":self.start_date,
+            "end_date":self.end_date,
+            "schedule_info":self.schedule_info,
+            "color":self.color
         }

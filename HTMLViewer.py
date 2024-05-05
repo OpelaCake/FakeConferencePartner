@@ -53,9 +53,12 @@ def renderMeetingDetails():
 def scheduleHtml():
     return render_template('schedule.html')
 
-@app.route('/renderPersonalSchedule', methods=['POST'])
-def renderPersonalSchedule():
-    pass
+@app.route('/getPersonalSchedules', methods=['POST'])
+def getPersonalSchedules():
+    form_data = request.json
+    schedules = json.loads(requests.post(f"{BACKEND_SERVER_URL}/getPersonalSchedules", data=form_data).text)
+    return jsonify(schedules)
+
 
 @app.route('/handleMeetingFollow', methods=['POST'])
 def handleMeetingFollow():
@@ -65,8 +68,12 @@ def handleMeetingFollow():
     # data['follow']
     return jsonify(json.loads(requests.post(f"{BACKEND_SERVER_URL}/handleMeetingFollow", data=form_data).text))
 
+@app.route('/handleScheduleUpdate', methods=['POST'])
 def handleScheduleUpdate():
-    pass
+    form_data = request.json
+    # data['schedule_id']
+    # data['update_type'] 0 is add, 1 is delete
+    return jsonify(json.loads(requests.post(f"{BACKEND_SERVER_URL}/handleScheduleUpdate", data=form_data).text))
 
 if __name__ == '__main__':
     app.run(debug=True)

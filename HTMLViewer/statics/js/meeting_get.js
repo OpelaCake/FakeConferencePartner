@@ -1,3 +1,8 @@
+
+
+let currentPage = 1; // 当前页码
+const meetingsPerPage = 10; // 每页显示的会议数
+let totalPages = 10
 function getCookie(name) {
     var value = "; " + document.cookie;
     var parts = value.split("; " + name + "=");
@@ -7,11 +12,18 @@ function getCookie(name) {
 $(document).ready(function() {
     // 发送 POST 请求获取会议数据
     username = getCookie('username')
+    fetchMeetings(1);
+});
+
+
+function fetchMeetings(page) {
+    $('#meetingsList').html('')
+    currentPage=page
     $.ajax({
         type: 'POST',
         url: 'renderMeetingsList',
         contentType: 'application/json',
-        data: JSON.stringify({ page: 1, numper: 10, username: username }),
+        data: JSON.stringify({ page: page, numper: meetingsPerPage, username: username }),
         success: function(data) {
             if (data.messageData && data.messageData.length > 0) {
                 data.messageData.forEach(function(meeting) {
@@ -25,6 +37,7 @@ $(document).ready(function() {
                         '<td>' + meeting.CCF_level + '</td>' +
                         '<td>' + meeting.CORE_level + '</td>' +
                         '<td>' + meeting.QUALIS_level + '</td>' +
+                        '<td>' + meeting.No + '</td>' +
                         '<td><button class="btn btn-primary follow-btn">关注</button></td>' +
                         '</tr>';
                         if (meeting.followed) {
@@ -52,7 +65,33 @@ $(document).ready(function() {
             $('#meetingsList').append('<tr><td colspan="10">获取会议信息失败</td></tr>');
         }
     });
-});
+    updatePagination(totalPages)
+}
+
+// 处理分页链接的点击事件
+function changePage(direction) {
+    if (direction === 'next') {
+        currentPage++;
+    } else if (direction === 'prev') {
+        currentPage = Math.max(1, currentPage - 1); // 确保页码不会小于1
+    }
+    fetchMeetings(currentPage);
+    
+}
+
+// 根据需要生成分页链接
+function updatePagination(totalPages) {
+    const paginationContainer = document.querySelector('.pagination');
+    paginationContainer.innerHTML = `<li class="page-item"><a class="page-link" href="#" onclick="changePage('prev')">Previous</a></li>`; // 添加上一页按钮
+
+    for (let i = 1; i <= totalPages; i++) {
+        paginationContainer.innerHTML += `<li class="page-item ${i === currentPage ? 'active' : ''}"><a class="page-link" href="#" onclick="fetchMeetings(${i})">${i}</a></li>`;
+    }
+
+    paginationContainer.innerHTML += `<li class="page-item"><a class="page-link" href="#" onclick="changePage('next')">Next</a></li>`; // 添加下一页按钮
+}
+
+
 
 
 function followMeeting(meetingId, follow, btn) {
