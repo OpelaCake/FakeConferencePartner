@@ -5,6 +5,7 @@
 from flask import Flask, render_template, request, jsonify, make_response
 import requests
 from DataTypes import *
+import json
 
 app = Flask(__name__, static_folder='./HTMLViewer/statics', template_folder='./HTMLViewer/statics/htmls')
 
@@ -37,17 +38,32 @@ def handleRegistrationForm():
     return jsonify(response.json())
 
 
+@app.route('/renderMeetingsList', methods=['POST'])
 def renderMeetingsList():
-    pass
+    form_data = request.json
+    # data['page']
+    # data['numper']
+    meetings = json.loads(requests.post(f"{BACKEND_SERVER_URL}/renderMeetingsList", data=form_data).text)
+    return jsonify(meetings)
 
 def renderMeetingDetails():
     pass
 
+@app.route('/schedule')
+def scheduleHtml():
+    return render_template('schedule.html')
+
+@app.route('/renderPersonalSchedule', methods=['POST'])
 def renderPersonalSchedule():
     pass
 
+@app.route('/handleMeetingFollow', methods=['POST'])
 def handleMeetingFollow():
-    pass
+    form_data = request.json
+    # data['username']
+    # data['meetingId']
+    # data['follow']
+    return jsonify(json.loads(requests.post(f"{BACKEND_SERVER_URL}/handleMeetingFollow", data=form_data).text))
 
 def handleScheduleUpdate():
     pass

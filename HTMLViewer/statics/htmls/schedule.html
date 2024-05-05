@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人规划</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="statics/css/_lib_bootstrap.css">
+    <style>
+        #calendar {
+            margin-top: 20px;
+        }
+        .calendar-day-header{
+            height: 27px;
+            width: calc(100% / 7);
+            border-left: 1px solid #ccc;
+            border-top: 1px solid #ccc;
+            display: inline-block;
+        }
+        .calendar-day {
+            height: 100px;
+            width: calc(100% / 7);
+            border-left: 1px solid #ccc;
+            border-top: 1px solid #ccc;
+            display: inline-block;
+        }
+        
+        .calendar-day:hover {
+            border: 3px solid #ccc;
+            border-color: #676767; /* Bootstrap主题颜色，或其他你喜欢的颜色 */
+        }
+        .active-day {
+            background-color: #f0f0f0;
+        }
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        #calendar {
+            width: 100%;
+            margin: auto;
+            display: table;
+        }
+        #calendar thead tr {
+            height: 5%;
+        }
+        #calendar tbody tr {
+            height: 19%;
+            width: calc(100% / 7);
+        }
+        #calendar th, #calendar td {
+            text-align: center;
+            border: 1px solid #ddd;
+            vertical-align: middle;
+        }
+        .calendar-header {
+            background-color: #f8f9fa;
+            color: #495057;
+        }
+        .event-details {
+            position: sticky; /* 使侧边栏在滚动时保持在视图内 */
+            top: 20px; /* 距离视窗顶部20px */
+            height: calc(100vh - 40px); /* 视窗高度减去40px */
+            overflow-y: auto; /* 如果内容过多，允许滚动 */
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,.1);
+        }
+
+        #detailsContent {
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+<div id="navbarPlaceholder"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <!-- 年月选择与添加事件按钮 -->
+        <div class="col-md-2">
+            <select id="yearSelector" class="form-select mb-3">
+                <!-- 年份选择项将动态填充 -->
+            </select>
+            <select id="monthSelector" class="form-select mb-3">
+                <!-- 月份选择项将动态填充 -->
+            </select>
+            <button class="btn btn-primary" onclick="addEvent()">添加规划</button>
+        </div>
+        <!-- 日历显示区域 -->
+        <div class="col-md-8">
+            <div id="calendar" class="d-flex flex-wrap">
+                <!-- 日历单元格将动态填充 -->
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div id="eventDetails" class="event-details">
+                <h4>规划详情</h4>
+                <div id="detailsContent">
+                    <!-- 规划详情内容将在这里动态显示 -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- 网站信息 -->
+<footer class="footer mt-auto py-3 bg-light">
+  <div class="container">
+    <span class="text-muted">Copyright &copy; 2024. All rights reserved.
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="statics/js/_lib_jq.js"></script>
+<script src="statics/js/_lib_popper.js"></script>
+<script src="statics/js/_lib_bootstrap.js"></script>
+<script src="statics/js/loginInfo.js"></script>
+
+<script src="statics/js/schedule.js"></script>
+</body>
+</html>

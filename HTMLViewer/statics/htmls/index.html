@@ -13,10 +13,30 @@
 <body>
 <div id="navbarPlaceholder"></div>
 
-<!-- 主体内容 -->
-<div class="container mt-3">
-    <!-- 主体内容部分等待添加 -->
+<div class="container mt-5">
+  <h2>最新会议信息</h2>
+  <table class="table table-hover">
+      <thead>
+          <tr>
+              <th>会议名称</th>
+              <th>简称</th>
+              <th>截稿日期</th>
+              <th>通知日期</th>
+              <th>会议日期</th>
+              <th>地点</th>
+              <th>CCF 级别</th>
+              <th>CORE 级别</th>
+              <th>QUALIS 级别</th>
+              <th>操作</th>
+          </tr>
+      </thead>
+      <tbody id="meetingsList">
+          <!-- 会议信息将通过JavaScript动态添加 -->
+      </tbody>
+  </table>
 </div>
+
+
 
 <!-- 网站信息 -->
 <footer class="footer mt-auto py-3 bg-light">
@@ -30,6 +50,7 @@
 <script src="statics/js/_lib_popper.js"></script>
 <script src="statics/js/_lib_bootstrap.js"></script>
 <script src="statics/js/loginInfo.js"></script>
+<script src="statics/js/meeting_get.js"></script>
 
 </body>
 </html>

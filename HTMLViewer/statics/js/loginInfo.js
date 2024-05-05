@@ -24,6 +24,8 @@ $(document).ready(function() {
         $('#myAccount').show();
         // 将登录按钮替换为用户名`
         $('#HtmlloginBtn').text(username).show();
+        loginInfo.isLoggedIn = true;
+        loginInfo.username = username;
     } else {
         // 如果不存在有效的 username Cookie，则隐藏“我的账户”导航栏
         $('#myAccount').hide();
