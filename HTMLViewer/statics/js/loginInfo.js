@@ -7,7 +7,7 @@ var loginInfo = {
 // 页面加载完成时执行的函数
 $(document).ready(function() {
     $.ajax({
-        url: 'statics/htmls/navbar.html',
+        url: '/statics/htmls/navbar.html',
         async: false, // 将async参数设置为false
         success: function(data) {
             $('#navbarPlaceholder').html(data); // 加载成功后插入到指定位置

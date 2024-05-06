@@ -10,7 +10,7 @@ import json
 app = Flask(__name__, static_folder='./HTMLViewer/statics', template_folder='./HTMLViewer/statics/htmls')
 
 # 定义后端服务器的地址
-BACKEND_SERVER_URL = "http://localhost:5001"
+BACKEND_SERVER_URL = "http://localhost:5018"
 
 @app.route('/')
 def index():
@@ -46,8 +46,29 @@ def renderMeetingsList():
     meetings = json.loads(requests.post(f"{BACKEND_SERVER_URL}/renderMeetingsList", data=form_data).text)
     return jsonify(meetings)
 
-def renderMeetingDetails():
-    pass
+
+# 路由可以接收会议ID
+@app.route('/renderMeetingDetails/<int:meeting_id>',methods=['GET'])
+def renderMeetingDetailsById(meeting_id):
+    form_data = {'meeting_id': meeting_id}
+    meeting = json.loads(requests.post(f"{BACKEND_SERVER_URL}/renderMeetingDetails", data=form_data).text)
+    if meeting['success'] == False:
+        return render_template('meeting_details_not_found.html')
+    return render_template('meeting_details.html', meeting=meeting["messageData"])
+
+# 路由可以接收会议简写和届数
+@app.route('/renderMeetingDetails/<meeting_shortname>/<int:edition>',methods=['GET'])
+def renderMeetingDetailsByShortnameAndEdition(meeting_shortname, edition):
+    form_data = {'meeting_shortname': meeting_shortname,'edition':edition}
+    # 假设有一个函数get_meeting_by_shortname_and_edition来获取会议数据
+    meeting = json.loads(requests.post(f"{BACKEND_SERVER_URL}/renderMeetingDetails", data=form_data).text)
+    if meeting['success']  == False:
+        return render_template('meeting_details_not_found.html')
+    return render_template('meeting_details.html', meeting=meeting['messageData'])
+
+
+
+
 
 @app.route('/schedule')
 def scheduleHtml():

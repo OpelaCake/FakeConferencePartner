@@ -8,6 +8,7 @@ class ReturnCode:
     UNFOLLOW_MEETING=5
     SCHEDULE_LIST=6
     SCHEDULE_UPDATE=7
+    MEETING_DETAILS_MESSAGE=8
 
     def __init__(self, success=False, username="", messageType=NORMARL_MESSAGE, messageData={}) -> None:
         self.success = success
@@ -40,7 +41,7 @@ CORE_level: string: A*/A/B/C/-
 QUALIS_level: string: A1/A2/B1/B2/B3/B4/B5
 '''
 class Meeting:
-    def __init__(self, id, name, shortname, due_date, info_date, meeting_date, location, CCF_level, CORE_level, QUALIS_level, No) -> None:
+    def __init__(self, id, name, shortname, due_date, info_date, meeting_date, location, CCF_level, CORE_level, QUALIS_level, No, details_info = None, link="") -> None:
         self.id = id
         self.name = name
         self.shortname = shortname
@@ -52,8 +53,10 @@ class Meeting:
         self.CORE_level = CORE_level
         self.QUALIS_level = QUALIS_level
         self.No = No
+        self.details_info = details_info
         self.username=None
         self.followed=False
+        self.link = link
 
     def toJson(self):
         return Meeting.__json__(self)

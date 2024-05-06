@@ -52,9 +52,34 @@ def getMeetingsList():
 
     return jsonify(ReturnCode().toJson())
 
+@app.route('/renderMeetingDetails', methods=['POST'])
 def getMeetingDetails():
-
-    pass
+    data = request.form
+    if data:
+        if 'meeting_id' in data:
+            meeting_id = data['meeting_id']
+            # toDo
+            #从数据库中获取meeting，它的id是meeting_id
+            m = Meeting(1, "2019年11月会议", "简写2019-11", "2019-11-01", "2019-11-01", "2019-11-01", "北京", "CCF", "CORE", "QUALIS",1, 
+                        details_info='<p>会议内容</p>')
+        else:
+            shortname = data['meeting_shortname']
+            edition = data['edition']
+            # toDo
+            # 从数据库中获取meeting，它的简写是shortname，届数是edition
+            m = Meeting(1, "2019年11月会议", "简写2019-11", "2019-11-01", "2019-11-01", "2019-11-01", "北京", "CCF", "CORE", "QUALIS",1,
+                        details_info='<p>会议内容</p>')
+        if 'username' in data:
+            # 如果登录，则需要展示该用户是否已经关注此会议
+            m.username = data['username']
+            # toDo
+            # 从数据库中获取username的所有关注meeting
+            follow_meeting_id_list = [1]
+            if m.id in follow_meeting_id_list:
+                m.followed = True
+        return jsonify(ReturnCode(success=True, messageType=ReturnCode.MEETING_DETAILS_MESSAGE, messageData=m.__json__()).toJson())
+            
+    return jsonify(ReturnCode().toJson())
 
 @app.route('/getPersonalSchedules', methods=['POST'])
 def getPersonalSchedules():
@@ -150,4 +175,4 @@ def handleScheduleUpdate():
     return  jsonify(ReturnCode().toJson())
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True, port=5018)

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ meeting.name }} Details</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/statics/css/_lib_bootstrap.css">
+    <script src="/statics/js/_lib_bootstrap_bundle.js"></script>
+    <script src="/statics/js/_lib_jq.js"></script>
+    <script src="/statics/js/_lib_popper.js"></script>
+    <script src="/statics/js/_lib_bootstrap.js"></script>
+    <style>
+         html, body {
+            height: 100%; /* 必须指定高度 */
+            margin: 0;
+            display: flex;
+            flex-direction: column; /* 设置主轴方向为垂直 */
+        }
+        .footer {
+            flex-shrink: 0; /* 防止页脚被压缩 */
+        }
+    </style>
+</head>
+<body>
+<div id="navbarPlaceholder"></div>
+
+<div class="container mt-5">
+    <h2>{{ meeting.name }} - Details</h2>
+    <table class="table">
+        <tbody>
+            <tr><td>名称</td><td>{{ meeting.name }}</td></tr>
+            <tr><td>简称</td><td>{{ meeting.shortname }}</td></tr>
+            <tr><td>截止日期</td><td>{{ meeting.due_date }}</td></tr>
+            <tr><td>通知日期</td><td>{{ meeting.info_date }}</td></tr>
+            <tr><td>会议日期</td><td>{{ meeting.meeting_date }}</td></tr>
+            <tr><td>地点</td><td>{{ meeting.location }}</td></tr>
+            <tr><td>CCF</td><td>{{ meeting.CCF_level }}</td></tr>
+            <tr><td>CORE</td><td>{{ meeting.CORE_level }}</td></tr>
+            <tr><td>QUALIS</td><td>{{ meeting.QUALIS_level }}</td></tr>
+            <tr><td>届数</td><td>{{ meeting.No }}</td></tr>
+            <tr><td>链接</td><td><a href="{{ meeting.link }}">{{ meeting.link }}</a></td></tr>
+            
+        </tbody>
+        
+{% if not meeting.followed %}
+    <button class="btn btn-danger follow-button" data-meeting-id="{{ meeting.id }}" data-follow-status="true">取关</button>
+{% else %}
+    <button class="btn btn-primary follow-button" data-meeting-id="{{ meeting.id }}" data-follow-status="false">关注</button>
+{% endif %}
+
+    </table>
+    <div>
+        <h4>Details Information</h4>
+        <hr>
+        <div>{{ meeting.details_info }}</div>
+    </div>
+</div>
+
+
+
+<footer class="footer mt-auto py-3 bg-light">
+  <div class="container">
+      <span class="text-muted">Copyright &copy; 2024. All rights reserved.</span>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="/statics/js/_lib_jq.js"></script>
+<script src="/statics/js/_lib_popper.js"></script>
+<script src="/statics/js/_lib_bootstrap.js"></script>
+<script src="/statics/js/loginInfo.js"></script>
+<script src="/statics/js/meeting_detail.js"></script>
+
+</body>
+</html>

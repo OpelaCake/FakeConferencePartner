@@ -1,6 +1,6 @@
 <!-- 顶部页眉 -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">会议管理网站</a>
+    <a class="navbar-brand" href="/">会议管理网站</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -13,13 +13,55 @@
         <li class="nav-item">
           <a class="nav-link" href="/schedule">规划</a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a class="nav-link" href="/myaccount">我的账户</a>
-        </li>
+        </li> -->
       </ul>
       <span class="navbar-text">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="toggleSearch">搜索会议</button>
         <span id="username" style="display: none;"></span>
         <button id="HtmlloginBtn" class="btn btn-outline-success my-2 my-sm-0">登录/注册</button>
       </span>
     </div>
+    
   </nav>
+  <div class="navbar navbar-expand navbar-light bg-light" id="searchNavbar" style="display: none;">
+    <div class="container-fluid justify-content-center">
+        <form id="navbar_search_form" class="row gx-2 gy-2 align-items-center">
+            <div class="col-auto">
+                <input type="search" class="form-control form-control-sm" name="shortName" placeholder="会议简写" aria-label="Shortname">
+            </div>
+            <div class="col-auto">
+                <input type="search" class="form-control form-control-sm" name="edition" placeholder="届数" aria-label="Edition">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-outline-success btn-sm">搜索会议</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+  <script>
+    document.querySelector('#navbar_search_form').addEventListener('submit', function(e) {
+        e.preventDefault(); // 阻止表单默认提交行为
+    
+        const shortName = document.querySelectorAll('.form-control')[0].value;
+        const edition = document.querySelectorAll('.form-control')[1].value;
+        if (shortName === '' || edition === '') {
+            alert('请输入会议简写和届数');
+            return;
+        }
+        // 使用fetch或jQuery的$.ajax发送请求
+        window.location.href = `/renderMeetingDetails/${shortName}/${edition}`;
+    });
+
+    document.getElementById('toggleSearch').addEventListener('click', function() {
+          var searchNav = document.getElementById('searchNavbar');
+          if (searchNav.style.display === 'none' || searchNav.style.display === '') {
+              searchNav.style.display = 'flex';  // 显示第二个导航栏
+          } else {
+              searchNav.style.display = 'none';  // 隐藏第二个导航栏
+          }
+      });
+    
+    </script>

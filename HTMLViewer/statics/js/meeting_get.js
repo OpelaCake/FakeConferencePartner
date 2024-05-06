@@ -9,6 +9,7 @@ function getCookie(name) {
     if (parts.length === 2) return parts.pop().split(";").shift();
     return null;
 }
+
 $(document).ready(function() {
     // 发送 POST 请求获取会议数据
     username = getCookie('username')
@@ -21,7 +22,7 @@ function fetchMeetings(page) {
     currentPage=page
     $.ajax({
         type: 'POST',
-        url: 'renderMeetingsList',
+        url: '/renderMeetingsList',
         contentType: 'application/json',
         data: JSON.stringify({ page: page, numper: meetingsPerPage, username: username }),
         success: function(data) {
@@ -39,6 +40,7 @@ function fetchMeetings(page) {
                         '<td>' + meeting.QUALIS_level + '</td>' +
                         '<td>' + meeting.No + '</td>' +
                         '<td><button class="btn btn-primary follow-btn">关注</button></td>' +
+                        '<td><button class="btn btn-secondary" onclick="showMeetingDetails('+meeting.id+')">详情</button></td>'
                         '</tr>';
                         if (meeting.followed) {
                             meetingRow = meetingRow.replace('<button class="btn btn-primary follow-btn">关注</button>', '<button class="btn btn-danger unfollow-btn">取消关注</button>');
@@ -67,7 +69,9 @@ function fetchMeetings(page) {
     });
     updatePagination(totalPages)
 }
-
+function showMeetingDetails(id){
+    window.location.href="renderMeetingDetails/"+id
+}
 // 处理分页链接的点击事件
 function changePage(direction) {
     if (direction === 'next') {
@@ -118,7 +122,7 @@ function followMeeting(meetingId, follow, btn) {
                     console.log('关注/取关成功', response);
                     // 根据操作类型更换按钮状态和类
                     if (follow) {
-                        btn.text('取消关注').removeClass('btn-secondary follow-btn').addClass('btn-danger unfollow-btn');
+                        btn.text('取关').removeClass('btn-secondary follow-btn').addClass('btn-danger unfollow-btn');
                         alert("会议关注成功！");
                         btn.prop('disabled', false)
                     } else {
@@ -126,6 +130,7 @@ function followMeeting(meetingId, follow, btn) {
                         alert("会议取关成功。");
                         btn.prop('disabled', false)
                     }
+                    
                 } else {
                     // 失败则恢复按钮原状态
                     alert("关注/取关会议失败，请重试！");
