@@ -49,6 +49,13 @@ function RegisterLogin() {
         // 如果未登录，则跳转到登录页面
         if (!loginInfo.isLoggedIn) {
             window.location.href = "login";
+        }else{
+            if(window.confirm("您已登录，是否退出？")){
+                // 删除Cookie
+                document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                // 刷新页面
+                location.reload();
+            }
         }
     });
 }
